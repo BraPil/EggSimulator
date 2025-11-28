@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Egg Simulator - The AAA Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="particle-field" id="particleField"></div>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <div id="menuScreen" class="screen active">
+      <div class="menu-content">
+        <div class="logo-container">
+          <div class="logo-glow"></div>
+          <h1 class="game-title">
+            <span class="title-egg">EGG</span>
+            <span class="title-simulator">SIMULATOR</span>
+          </h1>
+          <p class="title-subtitle">The AAA Experience</p>
+        </div>
+        
+        <div class="menu-buttons">
+          <button class="menu-btn primary" id="btnNewGame">
+            <span class="btn-bg"></span>
+            <span class="btn-text">New Game</span>
+          </button>
+          <button class="menu-btn" id="btnContinue" style="display: none;">
+            <span class="btn-bg"></span>
+            <span class="btn-text">Continue</span>
+          </button>
+          <button class="menu-btn" id="btnSettings">
+            <span class="btn-bg"></span>
+            <span class="btn-text">Settings</span>
+          </button>
+          <button class="menu-btn" id="btnAchievements">
+            <span class="btn-bg"></span>
+            <span class="btn-text">Achievements</span>
+          </button>
+        </div>
+
+        <div class="menu-footer">
+          <p class="version">Version 1.0.0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+      <!-- Top HUD -->
+      <header class="game-hud">
+        <div class="hud-left">
+          <div class="resource-display eggs-display">
+            <div class="resource-icon egg-icon"></div>
+            <div class="resource-info">
+              <span class="resource-label">Eggs</span>
+              <span class="resource-value" id="eggCount">0</span>
+            </div>
+          </div>
+          <div class="resource-display golden-display">
+            <div class="resource-icon golden-icon"></div>
+            <div class="resource-info">
+              <span class="resource-label">Golden Eggs</span>
+              <span class="resource-value" id="goldenEggCount">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-center">
+          <div class="prestige-display">
+            <span class="prestige-label">Prestige Level</span>
+            <span class="prestige-value" id="prestigeLevel">0</span>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button class="hud-btn" id="btnPause" title="Pause">
+            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="hud-btn" id="btnGameSettings" title="Settings">
+            <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Area -->
+      <main class="game-main">
+        <!-- Left Panel - Upgrades -->
+        <aside class="panel panel-left">
+          <div class="panel-header">
+            <h2>Upgrades</h2>
+          </div>
+          <div class="panel-content" id="upgradesPanel">
+            <!-- Upgrades populated by JS -->
+          </div>
+        </aside>
+
+        <!-- Center - The Egg -->
+        <section class="egg-chamber">
+          <div class="egg-pedestal">
+            <div class="pedestal-glow"></div>
+            <div class="pedestal-ring ring-1"></div>
+            <div class="pedestal-ring ring-2"></div>
+            <div class="pedestal-ring ring-3"></div>
+          </div>
+          
+          <div class="egg-container" id="eggContainer">
+            <div class="egg-shadow"></div>
+            <div class="egg" id="mainEgg">
+              <div class="egg-highlight"></div>
+              <div class="egg-shine"></div>
+              <div class="egg-pattern"></div>
+            </div>
+            <div class="click-effects" id="clickEffects"></div>
+          </div>
+
+          <div class="egg-stats">
+            <div class="stat-item">
+              <span class="stat-label">Per Click</span>
+              <span class="stat-value" id="perClickStat">1</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Per Second</span>
+              <span class="stat-value" id="perSecondStat">0</span>
+            </div>
+          </div>
+
+          <div class="multiplier-display" id="multiplierDisplay">
+            <span class="mult-label">Multiplier</span>
+            <span class="mult-value">x1.0</span>
+          </div>
+        </section>
+
+        <!-- Right Panel - Hens/Producers -->
+        <aside class="panel panel-right">
+          <div class="panel-header">
+            <h2>Producers</h2>
+          </div>
+          <div class="panel-content" id="producersPanel">
+            <!-- Producers populated by JS -->
+          </div>
+        </aside>
+      </main>
+
+      <!-- Bottom Bar -->
+      <footer class="game-footer">
+        <div class="footer-tabs">
+          <button class="tab-btn active" data-tab="upgrades">Upgrades</button>
+          <button class="tab-btn" data-tab="producers">Producers</button>
+          <button class="tab-btn" data-tab="eggs">Egg Types</button>
+          <button class="tab-btn" data-tab="prestige">Prestige</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Settings</h2>
+          <button class="modal-close" id="closeSettings">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-group">
+            <h3>Audio</h3>
+            <div class="setting-item">
+              <label>Master Volume</label>
+              <input type="range" id="masterVolume" min="0" max="100" value="80">
+              <span class="range-value">80%</span>
+            </div>
+            <div class="setting-item">
+              <label>Sound Effects</label>
+              <input type="range" id="sfxVolume" min="0" max="100" value="100">
+              <span class="range-value">100%</span>
+            </div>
+            <div class="setting-item">
+              <label>Music</label>
+              <input type="range" id="musicVolume" min="0" max="100" value="60">
+              <span class="range-value">60%</span>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>Display</h3>
+            <div class="setting-item">
+              <label>Particle Effects</label>
+              <label class="toggle">
+                <input type="checkbox" id="particlesEnabled" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label>Screen Shake</label>
+              <label class="toggle">
+                <input type="checkbox" id="screenShakeEnabled" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label>Number Format</label>
+              <select id="numberFormat">
+                <option value="standard">Standard (1,000)</option>
+                <option value="scientific">Scientific (1e3)</option>
+                <option value="short">Short (1K)</option>
+              </select>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>Data</h3>
+            <div class="setting-buttons">
+              <button class="setting-btn" id="btnExportSave">Export Save</button>
+              <button class="setting-btn" id="btnImportSave">Import Save</button>
+              <button class="setting-btn danger" id="btnResetGame">Reset Game</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievementsModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content achievements-content">
+        <div class="modal-header">
+          <h2>Achievements</h2>
+          <div class="achievement-progress">
+            <span id="achievementCount">0</span> / <span id="achievementTotal">0</span>
+          </div>
+          <button class="modal-close" id="closeAchievements">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="achievements-grid" id="achievementsGrid">
+            <!-- Achievements populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prestige Modal -->
+    <div id="prestigeModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content prestige-content">
+        <div class="modal-header">
+          <h2>Prestige</h2>
+          <button class="modal-close" id="closePrestige">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="prestige-info">
+            <div class="prestige-egg-display">
+              <div class="prestige-egg"></div>
+            </div>
+            <p class="prestige-description">
+              Reset your progress to earn <strong>Golden Eggs</strong> based on your lifetime earnings.
+              Golden Eggs provide permanent multipliers to all egg production.
+            </p>
+            <div class="prestige-reward">
+              <span class="reward-label">You will earn:</span>
+              <span class="reward-value" id="prestigeReward">0</span>
+              <span class="reward-suffix">Golden Eggs</span>
+            </div>
+            <div class="prestige-multiplier">
+              <span class="mult-label">New Multiplier:</span>
+              <span class="mult-value" id="newMultiplier">x1.0</span>
+            </div>
+          </div>
+          <button class="prestige-btn" id="btnPrestige">
+            <span class="btn-glow"></span>
+            <span class="btn-text">Prestige Now</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Egg Types Modal -->
+    <div id="eggTypesModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content egg-types-content">
+        <div class="modal-header">
+          <h2>Egg Collection</h2>
+          <button class="modal-close" id="closeEggTypes">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="egg-types-grid" id="eggTypesGrid">
+            <!-- Egg types populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- Achievement Popup -->
+    <div id="achievementPopup" class="achievement-popup">
+      <div class="popup-content">
+        <div class="popup-icon"></div>
+        <div class="popup-text">
+          <span class="popup-title">Achievement Unlocked!</span>
+          <span class="popup-name" id="achievementName"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/gameData.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
